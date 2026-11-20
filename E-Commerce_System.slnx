@@ -1,2 +1,12 @@
 <Solution>
+  <Folder Name="/requests/">
+    <File Path="requests/requests.http" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/E-Commerce.Api/E-Commerce.Api.csproj" />
+    <Project Path="src/E-Commerce.Application/E-Commerce.Application.csproj" />
+    <Project Path="src/E-Commerce.Domain/E-Commerce.Domain.csproj" />
+    <Project Path="src/E-Commerce.Infrastructure/E-Commerce.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
 </Solution>
