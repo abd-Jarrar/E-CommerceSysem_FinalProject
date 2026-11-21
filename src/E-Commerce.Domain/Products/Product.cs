@@ -28,16 +28,22 @@ namespace E_Commerce.Domain.Products
             IsActive = true;
         }
 
-        public static Result<Product> Create(string sku, string name, decimal price, int stock)
+        private static List<Error> ValidateNameAndPrice(string name, decimal price)
         {
             var errors = new List<Error>();
 
-            if (string.IsNullOrWhiteSpace(sku))
-                errors.Add(ProductErrors.SkuRequired);
             if (string.IsNullOrWhiteSpace(name))
                 errors.Add(ProductErrors.NameRequired);
             if (price <= 0)
                 errors.Add(ProductErrors.NegativeOrZeroPrice);
+
+            return errors;
+        }
+        public static Result<Product> Create(string sku, string name, decimal price, int stock)
+        {
+            var errors = ValidateNameAndPrice(name, price);
+            if (string.IsNullOrWhiteSpace(sku))
+                errors.Add(ProductErrors.SkuRequired);
             if (stock < 0)
                 errors.Add(ProductErrors.NegativeStock);
             if (errors.Count > 0)
@@ -45,5 +51,49 @@ namespace E_Commerce.Domain.Products
             
             return new Product(Guid.NewGuid(), sku.Trim(), name.Trim(), price, stock);
         }
+        public Result<Updated> DecreaseStock(int quantity)
+        {
+            if (quantity <= 0)
+                return ProductErrors.InvalidQuantity;
+
+            if (!IsActive)
+                return ProductErrors.InActive;
+
+            if (AvailableStock < quantity)
+                return ProductErrors.InsufficientStock(quantity, AvailableStock);
+
+            AvailableStock -= quantity;
+            return Result.Updated;
+        }
+        public Result<Updated> IncreaseStock(int quantity)
+        {
+            if (quantity <= 0)
+                return ProductErrors.InvalidQuantity;
+
+            AvailableStock += quantity;
+            return Result.Updated;
+        }
+        public Result<Updated> Update(string name, decimal price)
+        {
+            var errors = ValidateNameAndPrice(name, price);
+
+            if (errors.Count > 0)
+                return errors;
+
+            Name = name.Trim();
+            Price = price;
+            return Result.Updated;
+        }
+        public Result<Updated> Deactivate()
+        {
+            IsActive = false;
+            return Result.Updated;
+        }
+        public Result<Updated> Activate()
+        {
+            IsActive = true;
+            return Result.Updated;
+        }
+
     }
 }
