@@ -76,7 +76,6 @@ namespace E_Commerce.Domain.Common.Results
             => new(value);
         public static implicit operator Result<TValue>(Error error)
             => new(error);
-
         public static implicit operator Result<TValue>(List<Error> errors)
             => new(errors);
     }

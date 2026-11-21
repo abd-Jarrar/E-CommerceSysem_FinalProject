@@ -15,22 +15,35 @@ namespace E_Commerce.Domain.Products
         public bool IsActive { get; private set; }
         public byte[] RowVersion { get; private set; } = default!;
 
-        private Product() { }   // For EF Core
+        private Product() { }   
 
         private Product(Guid id, string sku, string name, decimal price, int stock)
         : base(id)
         {
-            Id= id;
+           
             Sku= sku;
             Name= name;
             Price= price;
             AvailableStock = stock;
+            IsActive = true;
         }
 
         public static Result<Product> Create(string sku, string name, decimal price, int stock)
         {
-            // TODO: validate, return Error.Validation(...) on failure
-            // TODO: otherwise return the new product
+            var errors = new List<Error>();
+
+            if (string.IsNullOrWhiteSpace(sku))
+                errors.Add(ProductErrors.SkuRequired);
+            if (string.IsNullOrWhiteSpace(name))
+                errors.Add(ProductErrors.NameRequired);
+            if (price <= 0)
+                errors.Add(ProductErrors.NegativeOrZeroPrice);
+            if (stock < 0)
+                errors.Add(ProductErrors.NegativeStock);
+            if (errors.Count > 0)
+                return errors;
+            
+            return new Product(Guid.NewGuid(), sku.Trim(), name.Trim(), price, stock);
         }
     }
 }
