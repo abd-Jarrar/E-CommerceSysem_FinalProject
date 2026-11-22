@@ -56,7 +56,6 @@ namespace E_Commerce.Domain.Customers
             IsVip = false;
             return Result.Updated;
         }
-
         public Result<Updated> Update(string name, string email)
         {
             var errors = Validate(name, email);

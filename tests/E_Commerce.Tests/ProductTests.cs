@@ -31,7 +31,6 @@ public class ProductTests
         Assert.True(result.IsSuccess);
         Assert.False(product.IsActive);
     }
-
     [Fact]
     public void Activate_InActiveProduct_ActivateSuccessfully()
     {
@@ -54,7 +53,7 @@ public class ProductTests
         Assert.True(product.IsActive);
     }
     [Fact]
-    public void Update_UpdateNameToValidName_UpdateSuccesfully()
+    public void Update_ValidName_UpdateSuccesfully()
     {
         //Arrange
         var product = Product.Create("sku", "product1", 1.2m, 10).Value;
@@ -93,7 +92,7 @@ public class ProductTests
         //Arrange
         var product = Product.Create("sku", "product1", 1.2m, 10).Value;
         //Act
-        var result = product.Update("    ", 1.2m);
+        var result = product.Update(null!, 1.2m);
         //Assert
         Assert.True(result.IsError);
         Assert.Equal("product1", product.Name);
@@ -259,8 +258,6 @@ public class ProductTests
         Assert.Equal(oldStock, product.AvailableStock);
         Assert.Equal(ProductErrors.InActive, result.TopError);
     }
-
-
     [Fact]
     public void Create_ValidDetails_CreatedSuccessfully()
     {
