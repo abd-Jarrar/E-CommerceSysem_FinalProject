@@ -4,7 +4,7 @@ using System.Text;
 
 namespace E_Commerce.Application
 {
-    internal class IAssemblyMarker
+    public interface IAssemblyMarker
     {
     }
 }
