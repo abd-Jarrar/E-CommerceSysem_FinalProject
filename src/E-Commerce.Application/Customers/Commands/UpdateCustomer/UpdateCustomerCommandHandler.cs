@@ -24,7 +24,7 @@ namespace E_Commerce.Application.Customers.Commands.UpdateCustomer
             var customer = await customerRepository.GetByIdAsync(request.Id, cancellationToken);
             if (customer is null)
             {
-                logger.LogInformation("Customer update rejected: customer {CustomerId} not found.", request.Id);
+                _logger.LogInformation("Customer update rejected: customer {CustomerId} not found.", request.Id);
                 return CustomerErrors.NotFound(request.Id);
             }
 
@@ -33,7 +33,7 @@ namespace E_Commerce.Application.Customers.Commands.UpdateCustomer
             if (newEmail != customer.Email
                 && await customerRepository.EmailExistsAsync(newEmail, cancellationToken))
             {
-                logger.LogInformation("Customer update rejected: email already exists.");
+                _logger.LogInformation("Customer update rejected: email already exists.");
                 return CustomerErrors.EmailExists;
             }
 
@@ -41,14 +41,14 @@ namespace E_Commerce.Application.Customers.Commands.UpdateCustomer
             if (updated.IsError)
                 return updated.Errors;
 
-            await unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
             try
             {
                 await _cache.RemoveByTagAsync("customer", cancellationToken);
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex, "Cache invalidation failed for customer {CustomerId}.", request.Id);
+                _logger.LogWarning(ex, "Cache invalidation failed for customer {CustomerId}.", request.Id);
             }
             return customer.ToDto();
         }

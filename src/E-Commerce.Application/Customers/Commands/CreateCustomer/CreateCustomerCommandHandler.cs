@@ -44,7 +44,7 @@ namespace E_Commerce.Application.Customers.Commands.CreateCustomer
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex, "Cache invalidation failed for the customers");
+                _logger.LogWarning(ex, "Cache invalidation failed for the customers");
             }
             return customer.ToDto();
         }
