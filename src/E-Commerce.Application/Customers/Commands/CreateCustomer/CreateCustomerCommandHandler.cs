@@ -38,7 +38,14 @@ namespace E_Commerce.Application.Customers.Commands.CreateCustomer
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             var customer = createCustomerResult.Value;
             _logger.LogInformation("Customer created successfully. Id: {customer.Id}", customer.Id);
-            await _cache.RemoveByTagAsync("customer", cancellationToken);
+            try
+            {
+                await _cache.RemoveByTagAsync("customer", cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Cache invalidation failed for the customers");
+            }
             return customer.ToDto();
         }
     }
