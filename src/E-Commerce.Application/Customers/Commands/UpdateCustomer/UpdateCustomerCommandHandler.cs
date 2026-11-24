@@ -21,7 +21,7 @@ namespace E_Commerce.Application.Customers.Commands.UpdateCustomer
 
         public async Task<Result<CustomerDto>> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var customer = await customerRepository.GetByIdAsync(request.Id, cancellationToken);
+            var customer = await _customerRepository.GetByIdAsync(request.Id, cancellationToken);
             if (customer is null)
             {
                 _logger.LogInformation("Customer update rejected: customer {CustomerId} not found.", request.Id);
@@ -31,7 +31,7 @@ namespace E_Commerce.Application.Customers.Commands.UpdateCustomer
             var newEmail = (request.Email ?? string.Empty).Trim().ToLowerInvariant();
 
             if (newEmail != customer.Email
-                && await customerRepository.EmailExistsAsync(newEmail, cancellationToken))
+                && await _customerRepository.EmailExistsAsync(newEmail, cancellationToken))
             {
                 _logger.LogInformation("Customer update rejected: email already exists.");
                 return CustomerErrors.EmailExists;

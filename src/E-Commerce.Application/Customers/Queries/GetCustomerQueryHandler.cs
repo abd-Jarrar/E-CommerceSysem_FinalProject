@@ -62,10 +62,8 @@ namespace E_Commerce.Application.Customers.Queries
             catch (Exception ex) when (ex.Message == "Customer not found.")
             {
                 _logger.LogInformation("Cache MISS for {CacheKey}.", key);
-
                 return CustomerErrors.NotFound(request.Id);
             }
         }
-
     }
 }

@@ -9,6 +9,7 @@
     <Project Path="src/E-Commerce.Infrastructure/E-Commerce.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/E_Commerce.Tests/E_Commerce.Tests.csproj" />
+    <Project Path="tests/E_Commerce.Application.UnitTests/E_Commerce.Application.UnitTests.csproj" />
+    <Project Path="tests/E_Commerce.Domain.UnitTests/E_Commerce.Domain.UnitTests.csproj" />
   </Folder>
 </Solution>
