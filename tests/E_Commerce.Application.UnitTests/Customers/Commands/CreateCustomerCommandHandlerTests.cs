@@ -69,7 +69,6 @@ namespace E_Commerce.Application.UnitTests.Customers.Commands
             //assert
             Assert.Contains(CustomerErrors.EmailInvalid, result.Errors);
         }
-
         [Fact]
         public async Task CreateCustomerCommandHandler_ValidData_CustomerDto()
         {
