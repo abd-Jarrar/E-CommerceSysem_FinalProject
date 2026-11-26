@@ -1,5 +1,6 @@
 ﻿using E_Commerce.Application.Abstractions;
 using E_Commerce.Application.Customers.Commands.UpdateCustomer;
+using E_Commerce.Application.Products.Caching;
 using E_Commerce.Application.Products.Dtos;
 using E_Commerce.Application.Products.Mapper;
 using E_Commerce.Domain.Common.Results;
@@ -20,7 +21,6 @@ namespace E_Commerce.Application.Products.Commands.UpdateProduct
         private readonly IProductRepository _productRepository = productRepository;
         private readonly ILogger<UpdateProductCommandHandler> _logger = logger;
         private readonly HybridCache _cache = cache;
-        private const string _productCacheTag = "product";
 
 
         public async Task<Result<ProductDto>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -40,7 +40,7 @@ namespace E_Commerce.Application.Products.Commands.UpdateProduct
 
             try
             {
-                await _cache.RemoveAsync($"{_productCacheTag}:{request.Id}", cancellationToken);
+                await _cache.RemoveAsync(product.ToCacheKey(), cancellationToken);
             }
             catch (Exception ex) when (ex is not OperationCanceledException)
             {

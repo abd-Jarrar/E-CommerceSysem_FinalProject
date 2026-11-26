@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Application.Abstractions;
+using E_Commerce.Application.Customers.Caching;
 using E_Commerce.Application.Customers.Commands.UpdateCustomer;
 using E_Commerce.Application.Customers.Dtos;
 using E_Commerce.Application.Customers.Mappers;
@@ -18,11 +19,10 @@ namespace E_Commerce.Application.Customers.Queries
         private readonly ICustomerRepository _customerRepository = customerRepository;
         private readonly ILogger<GetCustomerQueryHandler> _logger = logger;
         private readonly HybridCache _cache = cache;
-        private const string _customerCacheTag= "product";
 
         public async Task<Result<CustomerDto>> Handle(GetCustomerQuery request,CancellationToken cancellationToken)
         {
-            var key = $"{_customerCacheTag}:{request.Id}";
+            var key = CustomerCacheKeys.ToCacheKey(request.Id);
             var isMiss = false;
 
             try
@@ -47,7 +47,7 @@ namespace E_Commerce.Application.Customers.Queries
                     {
                         Expiration = TimeSpan.FromMinutes(5)
                     },
-                    [_customerCacheTag],
+                    [CustomerCacheKeys.Tag],
                     cancellationToken);
 
                 if (isMiss)

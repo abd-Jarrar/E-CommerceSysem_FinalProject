@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Application.Abstractions;
+using E_Commerce.Application.Products.Caching;
 using E_Commerce.Application.Products.Dtos;
 using E_Commerce.Application.Products.Mapper;
 using E_Commerce.Domain.Common.Results;
@@ -24,7 +25,6 @@ namespace E_Commerce.Application.Products.Commands.CreateProduct
         private readonly IProductRepository _productRepository = productRepository;
         private readonly ILogger<CreateProductCommandHandler> _logger = logger;
         private readonly HybridCache _cache = cache;
-        private const string _productCacheTag= "product";
         public async Task<Result<ProductDto>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var sku= (request.Sku ?? string.Empty).Trim().ToLowerInvariant();
@@ -43,7 +43,7 @@ namespace E_Commerce.Application.Products.Commands.CreateProduct
             _logger.LogInformation("Product created successfully. Id: {product.Id}", product.Id);
             try
             {
-                await _cache.RemoveByTagAsync(_productCacheTag, cancellationToken);
+                await _cache.RemoveByTagAsync(ProductCacheKeys.Tag, cancellationToken);
             }
             catch (Exception ex)
             {
