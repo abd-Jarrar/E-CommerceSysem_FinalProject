@@ -50,7 +50,6 @@ namespace E_Commerce.Application.UnitTests.Customers.Commands
             Assert.Contains(CustomerErrors.EmailExists, result.Errors);
         }
 
-
         [Fact]
         public async Task UpdateCustomerCommandHandler_UpdateNameToEmptyName_NameRequired()
         {
