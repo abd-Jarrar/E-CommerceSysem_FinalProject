@@ -20,6 +20,7 @@ namespace E_Commerce.Application.Customers.Commands.CreateCustomer
         private readonly ICustomerRepository _customerRepository = customerRepository;
         private readonly ILogger<CreateCustomerCommandHandler> _logger = logger;
         private readonly HybridCache _cache = cache;
+        private const string _customerCacheTag = "customer";
         public async Task<Result<CustomerDto>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
             var email = (request.Email ?? string.Empty).Trim().ToLowerInvariant();
@@ -40,7 +41,7 @@ namespace E_Commerce.Application.Customers.Commands.CreateCustomer
             _logger.LogInformation("Customer created successfully. Id: {customer.Id}", customer.Id);
             try
             {
-                await _cache.RemoveByTagAsync("customer", cancellationToken);
+                await _cache.RemoveByTagAsync(_customerCacheTag, cancellationToken);
             }
             catch (Exception ex)
             {

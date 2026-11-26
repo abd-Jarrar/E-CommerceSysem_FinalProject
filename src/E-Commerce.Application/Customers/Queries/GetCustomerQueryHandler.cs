@@ -18,9 +18,11 @@ namespace E_Commerce.Application.Customers.Queries
         private readonly ICustomerRepository _customerRepository = customerRepository;
         private readonly ILogger<GetCustomerQueryHandler> _logger = logger;
         private readonly HybridCache _cache = cache;
+        private const string _customerCacheTag= "product";
+
         public async Task<Result<CustomerDto>> Handle(GetCustomerQuery request,CancellationToken cancellationToken)
         {
-            var key = $"customer:{request.Id}";
+            var key = $"{_customerCacheTag}:{request.Id}";
             var isMiss = false;
 
             try
@@ -45,7 +47,7 @@ namespace E_Commerce.Application.Customers.Queries
                     {
                         Expiration = TimeSpan.FromMinutes(5)
                     },
-                    [key],
+                    [_customerCacheTag],
                     cancellationToken);
 
                 if (isMiss)
