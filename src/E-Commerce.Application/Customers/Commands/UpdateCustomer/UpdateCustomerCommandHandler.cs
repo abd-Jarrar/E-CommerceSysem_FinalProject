@@ -45,7 +45,7 @@ namespace E_Commerce.Application.Customers.Commands.UpdateCustomer
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             try
             {
-                await _cache.RemoveByTagAsync(_customerCacheTag, cancellationToken);
+                await _cache.RemoveAsync($"{_customerCacheTag}:{customer.Id}", cancellationToken);
             }
             catch (Exception ex)
             {

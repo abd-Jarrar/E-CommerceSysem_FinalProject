@@ -41,7 +41,7 @@ namespace E_Commerce.Application.Customers.Commands.CreateCustomer
             _logger.LogInformation("Customer created successfully. Id: {customer.Id}", customer.Id);
             try
             {
-                await _cache.RemoveByTagAsync(_customerCacheTag, cancellationToken);
+                await _cache.RemoveAsync(_customerCacheTag, cancellationToken);
             }
             catch (Exception ex)
             {

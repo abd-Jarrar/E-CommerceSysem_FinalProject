@@ -40,7 +40,7 @@ namespace E_Commerce.Application.Products.Commands.UpdateProduct
 
             try
             {
-                await _cache.RemoveByTagAsync(_productCacheTag, cancellationToken);
+                await _cache.RemoveAsync($"{_productCacheTag}:{request.Id}", cancellationToken);
             }
             catch (Exception ex) when (ex is not OperationCanceledException)
             {
