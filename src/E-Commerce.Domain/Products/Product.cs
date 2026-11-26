@@ -67,8 +67,7 @@ namespace E_Commerce.Domain.Products
         }
         public Result<Updated> IncreaseStock(int quantity)
         {
-            if (!IsActive)
-                return ProductErrors.InActive;
+            
             if (quantity <= 0)
                 return ProductErrors.InvalidQuantity;
 

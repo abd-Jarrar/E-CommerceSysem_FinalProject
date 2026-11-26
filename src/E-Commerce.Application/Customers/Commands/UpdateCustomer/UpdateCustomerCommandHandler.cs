@@ -18,6 +18,7 @@ namespace E_Commerce.Application.Customers.Commands.UpdateCustomer
         private readonly ICustomerRepository _customerRepository = customerRepository;
         private readonly ILogger<UpdateCustomerCommandHandler> _logger = logger;
         private readonly HybridCache _cache = cache;
+        private const string _customerCacheTag = "customer";
 
         public async Task<Result<CustomerDto>> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
@@ -44,7 +45,7 @@ namespace E_Commerce.Application.Customers.Commands.UpdateCustomer
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             try
             {
-                await _cache.RemoveByTagAsync("customer", cancellationToken);
+                await _cache.RemoveByTagAsync(_customerCacheTag, cancellationToken);
             }
             catch (Exception ex)
             {
