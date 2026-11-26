@@ -24,7 +24,7 @@ namespace E_Commerce.Application.Products.Commands.CreateProduct
         private readonly IProductRepository _productRepository = productRepository;
         private readonly ILogger<CreateProductCommandHandler> _logger = logger;
         private readonly HybridCache _cache = cache;
-        private const string _productCacheTag= "product"; 
+        private const string _productCacheTag= "product";
         public async Task<Result<ProductDto>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var sku= (request.Sku ?? string.Empty).Trim().ToLowerInvariant();
