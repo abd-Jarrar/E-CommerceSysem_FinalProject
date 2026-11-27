@@ -32,5 +32,8 @@ namespace E_Commerce.Domain.Products
         public static Error StockRestoreFailed(Guid productId) =>
             Error.Failure("Product_Stock_Restore_Failed",
                 $"Could not restore stock for product \"{productId}\".");
+        public static Error InsufficientStock(Guid productId) =>
+            Error.Conflict("Product_Stock_InSufficient",
+                $"Insufficient stock for product \"{productId}\".");
     }
 }
