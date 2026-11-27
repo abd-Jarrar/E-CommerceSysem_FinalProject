@@ -199,6 +199,5 @@ namespace E_Commerce.Application.UnitTests.Customers.Commands
             mock.Mock<HybridCache>().Verify(x => x.RemoveAsync(CustomerCacheKeys.ToCacheKey(customer.Id), ct), Times.Once);
         }
 
-
     }
 }
