@@ -17,7 +17,7 @@ namespace E_Commerce.Application.Products.Caching
                 return $"{_productCacheTag}:{product.Id}";
             }
         }
-        public static string GetCacheKey(Guid guid)
+        public static string ToCacheKey(Guid guid)
         {
             return $"{_productCacheTag}:{guid}";
         }
