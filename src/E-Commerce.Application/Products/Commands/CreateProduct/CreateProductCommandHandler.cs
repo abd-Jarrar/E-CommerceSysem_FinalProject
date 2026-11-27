@@ -41,14 +41,6 @@ namespace E_Commerce.Application.Products.Commands.CreateProduct
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             var product = createProductResult.Value;
             _logger.LogInformation("Product created successfully. Id: {product.Id}", product.Id);
-            try
-            {
-                await _cache.RemoveByTagAsync(ProductCacheKeys.Tag, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogWarning(ex, "Cache invalidation failed for the products");
-            }
             return product.ToDto();
 
         }
