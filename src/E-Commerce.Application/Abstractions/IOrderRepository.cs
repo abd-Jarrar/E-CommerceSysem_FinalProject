@@ -9,6 +9,6 @@ namespace E_Commerce.Application.Abstractions
     {
         Task<Order?> GetByIdAsync(Guid id, CancellationToken ct);
         Task AddAsync(Order order, CancellationToken ct);
-
+        
     }
 }

@@ -35,9 +35,7 @@ namespace E_Commerce.Application.Products.Commands.UpdateProduct
             var updated = product.Update(request.Name, request.Price);
             if (updated.IsError)
                 return updated.Errors;
-
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             try
             {
                 await _cache.RemoveAsync(product.ToCacheKey(), cancellationToken);
