@@ -27,6 +27,9 @@ namespace E_Commerce.Domain.Orders
             Error.Validation("Order_UnitPrice_MustBeNonNegative", "Unit price must not be negative.");
         public static Error DuplicateProduct =>
             Error.Conflict("Order_Product_Is_Duplicated", "The Product Is Already In the order.");
+
         
+
+
     }
 }

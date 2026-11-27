@@ -29,5 +29,8 @@ namespace E_Commerce.Domain.Products
         public static Error InvalidQuantity =>
             Error.Validation("Product_Quantity_MustBePositive",
                 "Quantity must be greater than zero.");
+        public static Error StockRestoreFailed(Guid productId) =>
+            Error.Failure("Product_Stock_Restore_Failed",
+                $"Could not restore stock for product \"{productId}\".");
     }
 }
