@@ -8,10 +8,6 @@ using E_Commerce.Domain.Products;
 using MediatR;
 using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace E_Commerce.Application.Products.Queries.GetProduct
 {
@@ -24,7 +20,6 @@ namespace E_Commerce.Application.Products.Queries.GetProduct
         private readonly HybridCache _cache = cache;
         public async Task<Result<ProductDto>> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
-
             var key = ProductCacheKeys.ToCacheKey(request.Id);
             var isMiss = false;
 
@@ -69,7 +64,6 @@ namespace E_Commerce.Application.Products.Queries.GetProduct
                 _logger.LogInformation("Cache MISS for {CacheKey}.", key);
                 return ProductErrors.NotFound(request.Id);
             }
-
 
         }
     }
